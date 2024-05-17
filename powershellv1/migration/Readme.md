@@ -22,5 +22,5 @@ To run the script you will need to download the script and run it with the follo
   - Example
 
 ```
-.\migrate_V1SWP_Win.ps1 -urlscutws "https://URL_for_SCUT_WS.com/" -urlscuta1 "URL_for_SCUT_A1" -urlagent "URL_for_agent" -token "your_token" -tenantid "your_tenant_id"
+.\migrate_V1SWP_Win.ps1 -urlagent "https://packagedist.s3.amazonaws.com/TMServerAgent_Windows.zip" -urlscuta1 "https://packagedist.s3.amazonaws.com/SCUT_A1.zip" -urlscutws "https://packagedist.s3.amazonaws.com/SCUT_WS.zip" -token "token123456789" -tenantid "nh7jh573-gt8y-8653-7895-gty8fr84g456"
 ```
