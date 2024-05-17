@@ -19,3 +19,8 @@ To run the script you will need to download the script and run it with the follo
 ```
 .\migration.ps1 -urlscutws "URL_for_SCUT_WS" -urlscuta1 "URL_for_SCUT_A1" -urlagent "URL_for_agent" -token "your_token" -tenantid "your_tenant_id"
 ```
+  - Example
+
+```
+.\migrate_V1SWP_Win.ps1 -urlscutws "https://URL_for_SCUT_WS.com/" -urlscuta1 "URL_for_SCUT_A1" -urlagent "URL_for_agent" -token "your_token" -tenantid "your_tenant_id"
+```
