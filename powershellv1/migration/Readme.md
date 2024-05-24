@@ -17,7 +17,47 @@ This script was created to handle Apex One, OfficeScan and Deep Security migrati
 
 ## Migration Script logic
 
-  - Script will look for the 
+  - Script will look for the **Mandatory** input (URL hosting the Trend Micro Basecamp Agent for Windows Server)
+    - If **NOT** Present - Script will Inform the operator and **EXIT** the migration
+    - If Present - Script will Inform the operator and continue the migration process
+      
+  - Script will look for the **Optional** input (URL hosting the Apex One/OfficeScan SCUT tool and URL hosting the Deep Security/Workload Security CUT tool)
+    - If **NOT** Present - Script will Inform Operator that the force uninstall will not be attempted
+  
+  - Script verify if Powershell is running in Privileged Mode
+    - If **NOT** - Script will Inform the operator and **EXIT** the migration
+    - If so - Script will Inform the operator and continue the migration process
+    
+  - Script will create a Logfile on the following path c:\%ProgramData%\Trend Micro\V1MigrationTool
+    - File will be named:   v1migrationtool_$timestamp.txt
+    
+  - Check if Apex One process is running on the host
+    - If **NOT** - Script will Inform the operator and continue the migration process
+    - If Present - Script will Inform the operator and try to uninstall Apex One
+      - If Apex One is **NOT** Password Protected it will be removed and script will continue the migration process
+      - If Apex One is Password Protected it will be try to used the SCUT tool if provided
+        - If **NOT** provided - Script will continue the migration process, but Trend Micro Basecamp will not be installed  
+        - If So - Script will download and run the SCUT tool to remove Apex One - After removal Script will inform the operator and continue the migration process
+
+  - Check if OfficeScan process is running on the host
+    - If **NOT** - Script will Inform the operator and continue the migration process
+    - If Present - Script will Inform the operator and try to uninstall OfficeScan
+      - If Apex One is **NOT** Password Protected it will be removed and script will continue the migration process
+      - If Apex One is Password Protected it will be try to used the SCUT tool if provided
+        - If **NOT** provided - Script will continue the migration process, but Trend Micro Basecamp will not be installed  
+        - If So - Script will download and run the SCUT tool to remove Apex One - After removal Script will inform the operator and continue the migration process
+
+    - Check if Deep Security or Workload Security processes are running on the host
+    - If **NOT** - Script will Inform the operator and continue the migration process
+    - If Present - Script will Inform the operator and try to uninstall Deep Security or Workload Security
+      - If Apex One is **NOT** Password Protected it will be removed and script will continue the migration process
+      - If Apex One is Password Protected it will be try to used the CUT tool if provided **This process is not yet fully developed as Powershell version 1 doesn`t have a viable way to run extract protected ZIP file**
+        - If **NOT** provided - Script will continue the migration process, but Trend Micro Basecamp will not be installed  
+        - If So - Script will download and run the SCUT tool to remove Apex One - After removal Script will inform the operator and continue the migration process
+  
+  - Check if Apex One or OfficeScan or Deep Security or Workload Security processes are running on the host
+    - If **NOT** - Script will Inform the operator, download the Agent and run it
+    - If still Present - Script will Inform the operator and Exit the migration process
 
 ## Migration Logical Diagram
 
@@ -31,12 +71,12 @@ To run the script you will need to download the script and run it with the follo
 ### Command
 
 ```
-.\migration.ps1 -urlagent "URL_for_agent" -urlscuta1 "URL_for_SCUT_A1" -urlscutws "URL_for_SCUT_WS" -token "your_token" -tenantid "your_tenant_id"
+.\migration.ps1 -urlagent "URL_for_agent" -urlscuta1 "URL_for_SCUT_A1" -urlscutws "URL_for_SCUT_WS"
 ```
   - Example
 
 ```
-.\migrate_V1SWP_Win.ps1 -urlagent "https://packagedist.s3.amazonaws.com/TMServerAgent_Windows.zip" -urlscuta1 "https://packagedist.s3.amazonaws.com/SCUT_A1.zip" -urlscutws "https://packagedist.s3.amazonaws.com/SCUT_WS.zip" -token "token123456789" -tenantid "nh7jh573-gt8y-8653-7895-gty8fr84g456"
+.\migrate_V1SWP_Win.ps1 -urlagent "https://packagedist.s3.amazonaws.com/TMServerAgent_Windows.zip" -urlscuta1 "https://packagedist.s3.amazonaws.com/SCUT_A1.zip" -urlscutws "https://packagedist.s3.amazonaws.com/SCUT_WS.zip"
 ```
 
 ### Parameters
