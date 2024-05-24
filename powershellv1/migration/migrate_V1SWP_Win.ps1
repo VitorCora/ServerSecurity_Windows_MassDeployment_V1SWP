@@ -28,13 +28,6 @@ if ($$urlscutws -eq $null) {
     Write-Host "Trend Micro SCUT WS URL found, proceeding to the next test."
 }
 
-if ($token -eq $null -or $tenantid -eq $null) {
-    Write-Host "Trend Micro Vision One token or tenantid have not been provided, proceeding with the migration."; 
-} else {
-    Write-Host "Trend Micro Vision One tenant and token have been provided, proceeding to the next test."
-}
-
-
 ## This code needs to be ran as Administrator, I will include a fail safe to break the code in the case of it starting with less privileges 
 
 if (-not ([Security.Principal.WindowsPrincipal] [Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole] 'Administrator')) {
@@ -142,34 +135,6 @@ function AppendToLogFile {
 	
 	# If execution reaches this point, it means all retries failed
 	Write-Host "Exceeded maximum retry attempts. Failed to append log entry to $logfile."
-}
-
-# Check if Trend Micro Deep Security service is installed
-function Check-DeepSecurityInstalled {
-    try {
-        $deepSecurity = Get-CimInstance -ClassName Win32_Product | Where-Object { $_.Name -like "*Trend Micro Deep Security Agent*" }
-        if ($deepSecurity -ne $null) {
-            $message = "Info: Trend Micro Deep Security is installed."
-            $type = "INFO"
-        } else {
-            $message = "Error: Trend Micro Deep Security is not installed."
-            $type = "ERROR"
-        }
-    }
-    catch {
-        $message = "Error: An error occurred while checking Deep Security installation - $_"
-        $type = "ERROR"
-    }
-
-    Write-Output $message
-    # Assuming AppendToLogFile is defined elsewhere in your script
-    AppendToLogFile -logfile $logfile -Message $message -Type $type
-
-    if ($type -eq "INFO") {
-        return $true
-    } else {
-        return $false
-    }
 }
 
 # Main program
