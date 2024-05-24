@@ -53,6 +53,10 @@ To run the script you will need to download the script and run it with the follo
 ![image](https://github.com/VitorCora/ServerSecurity_Windows_MassDeployment_V1SWP/assets/59590152/337d0833-e4bb-4957-9648-097cbaacc5ce)
 
 
+![image](https://github.com/VitorCora/ServerSecurity_Windows_MassDeployment_V1SWP/assets/59590152/e617ec6f-a2cf-4105-9332-7d6f434d4418)
+
+
+
 
 
 
