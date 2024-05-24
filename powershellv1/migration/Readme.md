@@ -13,6 +13,11 @@ This script was created to handle Apex One, OfficeScan and Deep Security migrati
   - Due to being created based on Powershell version 1 it should run in any Windows Server runnning Powershell as they are retrocompatible
   - Vision One Server & Workload Protection is compatible with Windows Server 2003, but Endpoint sensor and Basecamp are not, so avoid running this script on it
   - You will need to download and host the ApexOne SCUT tool and/or the Deep Security CUT tool and pass them as parameters when you run the Powershell script
+  - This script will not move your actual policy from Deep Security/Workload Security
+
+## Migration Script logic
+
+  - 
 
 ## How to run the script
 
