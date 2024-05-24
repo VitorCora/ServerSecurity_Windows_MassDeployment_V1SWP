@@ -5,9 +5,7 @@
 param (
     [string]$urlagent,
     [string]$urlscuta1,
-    [string]$urlscutws,
-    [string]$token,
-    [string]$tenantid
+    [string]$urlscutws
 )
 
 if ($urlagent -eq $null) {
@@ -725,47 +723,4 @@ if ($deepSecurity -eq $null -and $apexOne -eq $null -and $officeScan -eq $null) 
     	$type = "ERROR"
     	Write-Host $message
     	AppendToLogFile -logfile $logfile -Message $message -Type $type
-}
-
-# Set timeout to 15 minutes
-$timeout = (Get-Date).AddMinutes(15)
-
-# Set a numerical variable
-$n = 0
-$t = 30
-$wstime = 30
-
-# Loop until Deep Security is installed or timeout is reached
-while ((-not (Check-DeepSecurityInstalled)) -and (Get-Date) -lt $timeout) {
-	$n=$n+1
-	$wstime = $t*$n
-	$message = "Info: Waiting for Trend Micro Deep Security to be installed for $wstime ..."
-    	$type = "INFO"
-    	Write-Host $message
-    	AppendToLogFile -logfile $logfile -Message $message -Type $type
-    	Start-Sleep -Seconds 30  # Wait for 30 seconds before checking again
-}
-
-if ((Get-Date) -ge $timeout) {
-     	$message = "Error: Timed out waiting for Trend Micro Deep Security to be installed."
-    	$type = "ERROR"
-    	Write-Host $message
-    	AppendToLogFile -logfile $logfile -Message $message -Type $type
-} else {
-    	# Change directory to C:\Program Files\Trend Micro\Deep Security
-	Set-Location "C:\Program Files\Trend Micro\Deep Security Agent"
-
-	# Reset the manager
- 	$message = "Info: Reseting the manager"
-    	$type = "INFO"
-    	Write-Host $message
-    	AppendToLogFile -logfile $logfile -Message $message -Type $type
-    	& .\dsa_control -r
-    
-    	# Activate to the manager
- 	$message = "Info: Activating Vision One Server & Workload Protection"
-    	$type = "INFO"
-    	Write-Host $message
-    	AppendToLogFile -logfile $logfile -Message $message -Type $type
-    	& .\dsa_control -a dsm://agents.deepsecurity.trendmicro.com:443/ "tenantID:$tenantid" "token:$token"
 }
