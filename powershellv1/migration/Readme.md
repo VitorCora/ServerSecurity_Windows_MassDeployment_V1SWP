@@ -17,7 +17,12 @@ This script was created to handle Apex One, OfficeScan and Deep Security migrati
 
 ## Migration Script logic
 
-  - 
+  - Script will look for the 
+
+## Migration Logical Diagram
+
+![Whiteboard](https://github.com/VitorCora/ServerSecurity_Windows_MassDeployment_V1SWP/assets/59590152/0261c3b2-84e1-4a5f-8b6e-14869153e1cc)
+
 
 ## How to run the script
 
@@ -42,18 +47,15 @@ To run the script you will need to download the script and run it with the follo
     - It is used to fore remove password protected Apex One/OfficeScan deployments
   - **[Optional]** -urlscutws "URL_for_SCUT_WS" is the hosting URL for the Deep Security/Workload Security Common Uninstall Tool (CUT)
     - It is used to fore remove password protected Deep Security/Workload Security deployments
-  - **[Optional]** -token "your_token" is your Vision One Server & Workload Protection tenant token
-    - It is used to retry the activation - Not Mandatory
-  - **[Optional]** -tenantid "your_tenant_id" is your Vision One Server & Workload Protection tenant id
-    - It is used to retry the activation - Not Mandatory
-
-![image](https://github.com/VitorCora/ServerSecurity_Windows_MassDeployment_V1SWP/assets/59590152/91a09e89-62dc-4c7a-9d8b-edfc3a59f787)
-![image](https://github.com/VitorCora/ServerSecurity_Windows_MassDeployment_V1SWP/assets/59590152/a1a05e70-fec4-4c60-b8ad-4665051f8985)
-![image](https://github.com/VitorCora/ServerSecurity_Windows_MassDeployment_V1SWP/assets/59590152/832a9d70-d059-465f-8c05-f401089c681d)
-![image](https://github.com/VitorCora/ServerSecurity_Windows_MassDeployment_V1SWP/assets/59590152/337d0833-e4bb-4957-9648-097cbaacc5ce)
 
 
-![image](https://github.com/VitorCora/ServerSecurity_Windows_MassDeployment_V1SWP/assets/59590152/e617ec6f-a2cf-4105-9332-7d6f434d4418)
+
+
+
+
+
+
+
 
 
 
