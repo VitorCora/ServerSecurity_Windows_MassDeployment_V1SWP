@@ -1,13 +1,31 @@
 # ServerSecurity_Windows_MassDeployment_V1SWP
 
-Proces to massively deploy **V1S&WP** agent to multiple **Windows Server EC2** using **AWS SSM**
+Proces to massively deploy **V1S&WP** agent to multiple **Windows EC2 instances** using **AWS SSM**
+
+To maximize the compatibility, this project was developed using **Powershell version 1** 
+
+The following steps will help you to deploy the full Trend Micro Basecamp Agent, so this process can be used for **New Deployment** and **Migrations from previous Trend Micro products**.
+
+- Please read carefully the **Migration's Readme** for further requirements and restrictions
 
 This script and step-by-step was created based on the following AWS documentation:
 
     - https://aws.amazon.com/getting-started/hands-on/remotely-run-commands-ec2-instance-systems-manager/
 
+A second reference that was used to for this project, was its sister project for Linux EC2 instances and that can be found in the following link:
+    - [https://github.com/VitorCora/MassDeployV1S-WP](https://github.com/VitorCora/ServerSecurity_Linux_MassDeployment_V1SWP)
+
+We are going to be using **AWS System Manager - Node Management - Run Command** for the following activity (Can also be triggered through AWS System Manager - Node Management - Fleet Manager)
+
+This script was crafted with a dual purpose, to work on massive cloud deployments and also for Onprem deployments via GPOs or SCCPs
+** The means to use this script in GPOs or SCCPs is **not contemplated** in this guide.
+
 We are going to be using AWS System Manager - Node Management - Run Command for the following activity (Can also be triggered through AWS System Manager - Node Management - Fleet Manager)
 
+**[Important]** For Linux deployment please verify the following Repo:
+
+    - https://github.com/VitorCora/ServerSecurity_Linux_MassDeployment_V1SWP
+    
 # Pre requisites
 
 All your instances must have a role that allows AWS SSM to access and manage them
@@ -15,7 +33,7 @@ All your instances must have a role that allows AWS SSM to access and manage the
 
 ![image](https://github.com/VitorCora/MassDeployV1S-WP/assets/59590152/4f2bcfac-9f3c-4098-bd17-4fc747f0af30)
 
-** Further tests and analysis on my environment proved that the IAM role doesn`t need to be added to the instance, this pre requisite may be avoided for the sake of time
+**Further tests and analysis on my environment proved that the IAM role doesn`t need to be added to the instance, this pre requisite may be avoided for the sake of time**
 
 Working Trend Vision One tenant
 *Steps to the creation of the tenant on the the Step ##
@@ -114,7 +132,7 @@ A curtain will pop out:
         - **Protection Manager**: Choose your Manager
         - CLick on the Blue circle to **download installer**
 
-![image](https://github.com/VitorCora/MassDeployV1S-WP/assets/59590152/bafee7bb-af25-48ee-a220-a836990a2595)
+![image](https://github.com/VitorCora/MassDeployV1S-WP-Win/assets/59590152/6159bd0f-291b-4bd5-8246-5a9fa15ee4d7)
 
 After the download is ready, on your computer, rename the file as **TMServerAgent_Windows.zip**
 
