@@ -149,15 +149,19 @@ You may use console access or AWS CLI.
     - Locate your bucket and open it    
 ![image](https://github.com/VitorCora/MassDeployV1S-WP/assets/59590152/8208ee40-eb58-4dcf-82d7-684569da106a)        
     - Click on the yellow button on the Right side of the page that says **Upload**
-        ![image](https://github.com/VitorCora/MassDeployV1S-WP/assets/59590152/1c5076cc-4221-4c02-a528-7aa147db13b6)
-    - On the upload page click on Add files
+   ![image](https://github.com/VitorCora/MassDeployV1S-WP-Win/assets/59590152/a940b014-7524-468e-8cb2-9657a114e88e)
+        
+    - On the upload page click on **Add Files**
+    
     - On the pop-up Find your Agent and click on Open
-        ![image](https://github.com/VitorCora/MassDeployV1S-WP/assets/59590152/9f1fdcc7-16b1-4ce8-a94d-400b6888445d)
+![image](https://github.com/VitorCora/MassDeployV1S-WP-Win/assets/59590152/7b3187ea-6982-4c8d-84db-7e3bd5a6bb5e)
+
+        
     - Now you just need to click on the Orange button that says **Upload** on the bottom of the page
-        ![image](https://github.com/VitorCora/MassDeployV1S-WP/assets/59590152/befd8585-1af0-4602-a0d4-6d7482dfbe97)
+ ![image](https://github.com/VitorCora/MassDeployV1S-WP-Win/assets/59590152/3617be11-a628-4437-8e92-e889f25d400e)
 
 You should have something similar to the following:
-    ![image](https://github.com/VitorCora/MassDeployV1S-WP/assets/59590152/2a1a2636-0961-4fc4-bcf7-c3e4eec0c079)
+    ![image](https://github.com/VitorCora/MassDeployV1S-WP-Win/assets/59590152/483053f4-7105-404f-b051-827801ddc7ce)
 
 ## Using bash and AWS CLI
 
@@ -167,10 +171,10 @@ On the bash, move to the folder where your Agent lives.
 
 On this folder run the following command:
     - aws s3 mv TMServerAgent_Windows.zip s3://**<YOUR BUCKET NAME>**/TMServerAgent_Windows.zip
-        ![image](https://github.com/VitorCora/MassDeployV1S-WP/assets/59590152/983a639c-4a82-48d8-94be-dff7a2da96db)
+        ![image](https://github.com/VitorCora/MassDeployV1S-WP-Win/assets/59590152/b790ee68-b77f-4b48-a448-ccb9775b3cd8)
 
 You should have something similar to the following:
-    ![image](https://github.com/VitorCora/MassDeployV1S-WP/assets/59590152/e26cd5e7-8ece-484e-8b19-a3a98a60b748)
+    ![image](https://github.com/VitorCora/MassDeployV1S-WP-Win/assets/59590152/46bd3de2-c282-4685-84a3-dbda33590ac8)
 
 ### AWS API PUT-OBJECT method
 
@@ -178,9 +182,11 @@ On the bash, move to the folder where your Agent lives.
 
 On this folder run the following command:
     - aws s3api put-object --bucket **<YOUR BUCKET NAME>** --key TMServerAgent_Windows.zip --body TMServerAgent_Windows.zip
-        ![image](https://github.com/VitorCora/MassDeployV1S-WP/assets/59590152/43f7eb16-9e35-46d6-ae06-7828e1e56b84)
+        ![image](https://github.com/VitorCora/MassDeployV1S-WP-Win/assets/59590152/db448d7a-bc3b-4851-ac11-6935308c0283)
+
 You should have something similar to the following:
-    ![image](https://github.com/VitorCora/MassDeployV1S-WP/assets/59590152/89983a30-4015-4bb2-a49d-a15fd3ad494b)
+    ![image](https://github.com/VitorCora/MassDeployV1S-WP-Win/assets/59590152/2095240b-1458-42aa-af3e-c0f90efd23df)
+
 
 ## Make the agent public on the AWS S3 Bucket
 
@@ -210,7 +216,8 @@ Under the BUcket policy session, click on Edit and add the following permission:
 ```
 
 Your should look somewhat like the following, but with your **BUCKET ARN** at the **Resource session** 
-![image](https://github.com/VitorCora/MassDeployV1S-WP/assets/59590152/2d3e2211-6fda-4316-8c13-917c8c0b3da7)
+![image](https://github.com/VitorCora/ServerSecurity_Windows_MassDeployment_V1SWP/assets/59590152/a3abb018-7b3d-4555-a156-bca1f28215e2)
+
 
 Now click on **Save Changes** at the bottom right corner
 
@@ -218,31 +225,11 @@ Now click on **Save Changes** at the bottom right corner
 
 ## Script
 
-Copy and paste the following script into the Command Parameters session:
+For the **New Installation Script** follow the following link:
+https://github.com/VitorCora/ServerSecurity_Windows_MassDeployment_V1SWP/blob/main/powershellv1/newdeployment/newdeployment_V1SWP_Win.ps1
 
-```
-#!/bin/bash /
-DIR="agentlinux" /
-AGENTINSTALLER="TMServerAgent*" /
-if [ -d "$DIR" ]; then
-    echo "Directory agentlinux exists"
-    cd ~/$DIR
-    wget https://**<YOUR BUCKET NAME>**.s3.amazonaws.com/TMServerAgent_Windows.zip
-    tar -xvf TMServerAgent_Windows.zip
-    sudo ./tmxbc install;
-else 
-    echo "Directory agentlinux does not exist, Creating directory"
-    mkdir $DIR
-    cd ~/$DIR
-    wget https://**<YOUR BUCKET NAME>**.s3.amazonaws.com/TMServerAgent_Windows.zip
-    tar -xvf TMServerAgent_Windows.zip
-    sudo ./tmxbc install;   
-fi
-```
-
-
-The script can also be found in the following link:
-   - https://github.com/VitorCora/MassDeployV1S-WP/blob/main/DeployBasecamp.sh
+For the **Migration Script** follow the following link:
+https://github.com/VitorCora/ServerSecurity_Windows_MassDeployment_V1SWP/blob/main/powershellv1/migration/migrate_V1SWP_Win.ps1
 
 It should look like the following:
 
