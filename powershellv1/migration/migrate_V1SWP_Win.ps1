@@ -500,7 +500,13 @@ AppendToLogFile -logfile $logfile -Message $message -Type $type
 # Logic to Install Basecamp agent
 
 if ($deepSecurity -eq $null -and $apexOne -eq $null -and $officeScan -eq $null) {
-	$message = "Starting Installation process of the Trend Micro Basecamp Agent"
+	if ($deepSecurity -ne $null) {
+ 	 	$message = "As Trend Micro Deep Security or Trend Micro Workload Security is installed in this machine, Vision One Server and Workload Security will not be installed, please contact your Trend Micro representative"
+		$type = "INFO"
+		Write-Host $message
+		AppendToLogFile -logfile $logfile -Message $message -Type $type	
+  	}
+ 	$message = "Starting Installation process of the Trend Micro Basecamp Agent"
 	$type = "INFO"
 	Write-Host $message
 	AppendToLogFile -logfile $logfile -Message $message -Type $type
