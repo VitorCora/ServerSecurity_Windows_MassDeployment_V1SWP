@@ -1,27 +1,18 @@
-# V1S-WP_Migration_Project
+# V1S-WP_NewDeployment_Project
 
 # Parameters
 
 param (
     [string]$urlagent,
-    [string]$token,
-    [string]$tenantid
 )
 
 if ($urlagent -eq $null) {
     Write-Host "Please provide the url for the download of the Basecamp Agent."; 
-    Write-Host "Exiting the migration process."; 
+    Write-Host "Exiting the installation process."; 
     exit 
 } else {
     Write-Host "URL for Trend Micro Basecamp found, proceeding to the next test."
 }
-
-if ($token -eq $null -or $tenantid -eq $null) {
-    Write-Host "Trend Micro Vision One token or tenantid have not been provided, proceeding with the migration."; 
-} else {
-    Write-Host "Trend Micro Vision One tenant and token have been provided, proceeding to the next test."
-}
-
 
 ## This code needs to be ran as Administrator, I will include a fail safe to break the code in the case of it starting with less privileges 
 
@@ -38,20 +29,16 @@ if (-not ([Security.Principal.WindowsPrincipal] [Security.Principal.WindowsIdent
 # Define the path where the program will be downloaded
 $downloadPathAgent = "$env:TEMP\TMStandardAgent_Windows.zip"
 
-$downloadPathSCUTA1 = "$env:TEMP\SCUTA1.zip"
-
-$downloadPathSCUTWS = "$env:TEMP\SCUTWS.zip"
-
 # Error variable
 $e=0
 
 # Force PowerShell to use TLS 1.2
 [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
 
-#Create Folder to save logs from the Migration tool
+#Create Folder to save logs from the Installation tool
 
 # Specify the folder path
-$folderPath = "C:\ProgramData\Trend Micro\V1MigrationTool"
+$folderPath = "C:\ProgramData\Trend Micro\V1InstallationTool"
 
 # Check if the folder already exists
 if (-not (Test-Path $folderPath)) {
@@ -67,7 +54,7 @@ if (-not (Test-Path $folderPath)) {
 # Create the log file
 
 # Specify the file path
-$logfileName = "v1migrationtool"
+$logfileName = "v1installationtool"
 $timestamp = Get-Date -Format "yyMMdd_HHmmss"
 
 # Construct the full file path
@@ -86,7 +73,7 @@ $streamWriter.WriteLine("INFO: $timestamp message:Log file create successfully."
 $timestamp = Get-Date -Format "yyyy-MM-dd HH:mm:ss"
 
 # Append text to the file
-$streamWriter.WriteLine("INFO: $timestamp message:Migration process started at $timestamp.")
+$streamWriter.WriteLine("INFO: $timestamp message:Installation process started at $timestamp.")
 
 # Close the StreamWriter object to release resources
 $streamWriter.Close()
@@ -132,34 +119,6 @@ function AppendToLogFile {
 	Write-Host "Exceeded maximum retry attempts. Failed to append log entry to $logfile."
 }
 
-# Check if Trend Micro Deep Security service is installed
-function Check-DeepSecurityInstalled {
-    try {
-        $deepSecurity = Get-CimInstance -ClassName Win32_Product | Where-Object { $_.Name -like "*Trend Micro Deep Security Agent*" }
-        if ($deepSecurity -ne $null) {
-            $message = "Info: Trend Micro Deep Security is installed."
-            $type = "INFO"
-        } else {
-            $message = "Error: Trend Micro Deep Security is not installed."
-            $type = "ERROR"
-        }
-    }
-    catch {
-        $message = "Error: An error occurred while checking Deep Security installation - $_"
-        $type = "ERROR"
-    }
-
-    Write-Output $message
-    # Assuming AppendToLogFile is defined elsewhere in your script
-    AppendToLogFile -logfile $logfile -Message $message -Type $type
-
-    if ($type -eq "INFO") {
-        return $true
-    } else {
-        return $false
-    }
-}
-
 # Main program
 
 # Start Check if Apex One is installed
@@ -177,7 +136,7 @@ if ($apexOne -ne $null) {
 	$type = "INFO"
 	Write-Host $message
 	AppendToLogFile -logfile $logfile -Message $message -Type $type
-  $message = "Please utilize the Migration script and it`s specific requirements."
+	$message = "Please utilize the Migration script."
 	$type = "INFO"
 	Write-Host $message
 	AppendToLogFile -logfile $logfile -Message $message -Type $type
@@ -185,9 +144,9 @@ if ($apexOne -ne $null) {
 	$type = "INFO"
 	Write-Host $message
 	AppendToLogFile -logfile $logfile -Message $message -Type $type
-  exit
+	exit
 } else {
-	$message = "Trend Micro Apex One Security Agent is not installed."
+	$message = "Trend Micro Apex One Security Agent is not installed, Installation continuing ..."
 	$type = "INFO"
 	Write-Host $message
 	AppendToLogFile -logfile $logfile -Message $message -Type $type
@@ -208,7 +167,7 @@ if ($officeScan -ne $null) {
 	$type = "INFO"
 	Write-Host $message
 	AppendToLogFile -logfile $logfile -Message $message -Type $type
-  $message = "Please utilize the Migration script and it`s specific requirements."
+	$message = "Please utilize the Migration script."
 	$type = "INFO"
 	Write-Host $message
 	AppendToLogFile -logfile $logfile -Message $message -Type $type
@@ -216,8 +175,9 @@ if ($officeScan -ne $null) {
 	$type = "INFO"
 	Write-Host $message
 	AppendToLogFile -logfile $logfile -Message $message -Type $type
+ 	exit
 } else {
-	$message = "Trend Micro OfficeScan Agent is not installed."
+	$message = "Trend Micro OfficeScan Agent is not installed, Installation continuing ..."
 	$type = "INFO"
 	Write-Host $message
 	AppendToLogFile -logfile $logfile -Message $message -Type $type
@@ -239,7 +199,7 @@ if ($deepSecurity -ne $null) {
 	$type = "INFO"
 	Write-Host $message
 	AppendToLogFile -logfile $logfile -Message $message -Type $type
-  $message = "Please utilize the Migration script and it`s specific requirements."
+	$message = "Please utilize the Migration script."
 	$type = "INFO"
 	Write-Host $message
 	AppendToLogFile -logfile $logfile -Message $message -Type $type
@@ -248,7 +208,7 @@ if ($deepSecurity -ne $null) {
 	Write-Host $message
 	AppendToLogFile -logfile $logfile -Message $message -Type $type
 } else {
-	$message = "Trend Micro Deep Security/Workload Security Agent is not installed."
+	$message = "Trend Micro Deep Security/Workload Security Agent is not installed, Installation continuing ..."
 	Write-Host $message
 	AppendToLogFile -logfile $logfile -Message $message -Type $type
 }
@@ -342,47 +302,4 @@ if ($deepSecurity -eq $null -and $apexOne -eq $null -and $officeScan -eq $null) 
     	$type = "ERROR"
     	Write-Host $message
     	AppendToLogFile -logfile $logfile -Message $message -Type $type
-}
-
-# Set timeout to 15 minutes
-$timeout = (Get-Date).AddMinutes(15)
-
-# Set a numerical variable
-$n = 0
-$t = 30
-$wstime = 30
-
-# Loop until Deep Security is installed or timeout is reached
-while ((-not (Check-DeepSecurityInstalled)) -and (Get-Date) -lt $timeout) {
-	$n=$n+1
-	$wstime = $t*$n
-	$message = "Info: Waiting for Trend Micro Deep Security to be installed for $wstime ..."
-    	$type = "INFO"
-    	Write-Host $message
-    	AppendToLogFile -logfile $logfile -Message $message -Type $type
-    	Start-Sleep -Seconds 30  # Wait for 30 seconds before checking again
-}
-
-if ((Get-Date) -ge $timeout) {
-     	$message = "Error: Timed out waiting for Trend Micro Deep Security to be installed."
-    	$type = "ERROR"
-    	Write-Host $message
-    	AppendToLogFile -logfile $logfile -Message $message -Type $type
-} else {
-    	# Change directory to C:\Program Files\Trend Micro\Deep Security
-	Set-Location "C:\Program Files\Trend Micro\Deep Security Agent"
-
-	# Reset the manager
- 	$message = "Info: Reseting the manager"
-    	$type = "INFO"
-    	Write-Host $message
-    	AppendToLogFile -logfile $logfile -Message $message -Type $type
-    	& .\dsa_control -r
-    
-    	# Activate to the manager
- 	$message = "Info: Activating Vision One Server & Workload Protection"
-    	$type = "INFO"
-    	Write-Host $message
-    	AppendToLogFile -logfile $logfile -Message $message -Type $type
-    	& .\dsa_control -a dsm://agents.deepsecurity.trendmicro.com:443/ "tenantID:$tenantid" "token:$token"
 }
